@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>demo</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Pragma" CONTENT="no-cache">
+  <meta http-equiv="Cache-Control" CONTENT="no-cache">
+  <meta http-equiv="Expires" CONTENT="0">
+  <style type="text/css">
+    :root {
+      --mouse-x: 0.1;
+      --mouse-y: 0.1;
+      --rotate: 0.1;
+    }
+
+    .container {
+      height: 500px;
+      width: 100%;
+      background: white;
+      font-size: 16px;
+      position: relative;
+      box-shadow: 0 0 1px 1px darkred;
+      cursor: move;
+    }
+
+    .mustache {
+      width: 180px;
+      height: 180px;
+      border-radius: 100%;
+      position: absolute;
+      top: 0;
+      left: calc(1000px * var(--mouse-x, 0.1));
+      color: black;
+      box-shadow: 150px 240px 0 0 currentColor, 300px 240px 0 0 currentColor;
+    }
+
+    .mustache:before {
+      content: '';
+      position: absolute;
+      width: 210px;
+      height: 120px;
+      border-bottom: solid 180px currentColor;
+      left: 30px;
+      top: 120px;
+      border-radius: 0 0 0 100%;
+      transform: rotate(calc(-40deg * var(--rotate, 0.1)));
+      transform-origin: right 210px;
+    }
+
+    .mustache:after {
+      content: '';
+      position: absolute;
+      width: 210px;
+      height: 120px;
+      border-bottom: solid 180px currentColor;
+      left: 390px;
+      top: 120px;
+      border-radius: 0 0 100% 0;
+      transform: rotate(calc(40deg * var(--rotate, 0.1)));
+      transform-origin: left 210px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="mustache"></div>
+  </div>
+  <script type="text/javascript">
+    (function changeVar() {
+        var root = document.documentElement;
+        document.getElementById('container').addEventListener('mousemove', function(e) {
+            var x = e.clientX / innerWidth;
+            var y = e.clientY / innerHeight;
+            var deg = Math.random()*(e.clientX - e.clientY) / e.clientX;
+
+            root.style.setProperty('--mouse-x', x);
+            root.style.setProperty('--mouse-y', y);
+            root.style.setProperty('--rotate', deg);
+        });
+    })();
+  </script>
+</body>
+
+</html>
