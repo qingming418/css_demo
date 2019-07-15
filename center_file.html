@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>居中的方式</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Expires" CONTENT="0">
+    <style type="text/css">
+        *, :after, :before {
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            background: transparent;
+            font-size: 16px;
+            position: relative;
+        }
+        .module-block {
+            box-shadow: 0 0 1px;
+            padding: 1em;
+            margin: .75em 0;
+            text-align: center;
+        }
+        .context {
+            background: aliceblue;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="module-block">
+        <style type="text/css">
+            .center-line-height {
+                height: 3em;
+                text-align: center;
+                line-height: 3em;
+            }
+        </style>
+        <h3>line-height</h3>
+        <div class="context center-line-height">
+            单行文字垂直居中效果
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-inline-block {
+                height: 250px;
+                margin: auto;
+                width: 100%;
+                text-align: center;
+            }
+            .center-inline-block::before {
+                content: '';
+                display: inline-block;
+                height: 100%;
+                width: 0;
+                vertical-align: middle;
+            }
+            .text-wrap-1 {
+                display: inline-block;
+                vertical-align: middle;
+                width: calc(100% - 10px);
+            }
+        </style>
+        <h3>:before + inline-block</h3>
+        <div class="context center-inline-block">
+            <div class="text-wrap-1">
+                世间事，人生情，看开随意，看淡无虑，人生，就图个心安理得。
+                心若不在，何必强留，人若不爱，何必强求，扛着锄头耕耘属于自己的土地，才有丰收的惊喜，揣着炙热留给心窝里有你的人，才有挚爱的美丽，无论爱情还是友情，自作多情不是暖，相濡以沫才是春，很多的烦恼，源于内心不够硬不够狠，习惯去周全一切，却忘了自己也会委屈，忍痛去成全一切，却忽略自己也会难舍。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-3 {
+                width: 100%;
+                height: 250px;
+                margin: auto;
+                position: relative;
+            }
+            .wrap-context-3 {
+                width: 400px;
+                height: 70px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-left: -200px;
+                margin-top: -35px;
+                background: antiquewhite;
+            }
+        </style>
+        <h3>absolute + margin</h3>
+        <div class="context center-wrap-3">
+            <div class="wrap-context-3">
+                多行文字的垂直居中技巧，但居中的元素具有固定尺寸。适合做图片等居中效果。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-4 {
+                width: 100%;
+                height: 250px;
+                margin: auto;
+                position: relative;
+            }
+            .wrap-context-4 {
+                width: 400px;
+                height: 70px;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto;
+                background: antiquewhite;
+            }
+        </style>
+        <h3>absolute + margin auto</h3>
+        <div class="context center-wrap-4">
+            <div class="wrap-context-4">
+                缺点也是定位元素必须有固定的宽高。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-5 {
+                width: 100%;
+                height: 250px;
+                margin: auto;
+                position: relative;
+            }
+            .wrap-context-5 {
+                width: 400px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: antiquewhite;
+            }
+        </style>
+        <h3>absolute + translate</h3>
+        <div class="context center-wrap-5">
+            <div class="wrap-context-5">
+                先利用定位，左、上各位移50%，然后自身再向相反的方向位移50%。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-6 {
+                width: 100%;
+                height: 250px;
+                margin: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .wrap-context-6 {
+                width: 400px;
+                background: antiquewhite;
+            }
+        </style>
+        <h3>flex + align-items</h3>
+        <div class="context center-wrap-6">
+            <div class="wrap-context-6">
+                利用display: flex;布局。代码干净整洁。老一版浏览器兼容性问题。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-7 {
+                width: 100%;
+                height: 250px;
+                margin: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .center-wrap-7:before {
+                content: '';
+                flex-grow: .5;
+            }
+            .wrap-context-7 {
+                width: 400px;
+                background: antiquewhite;
+            }
+        </style>
+        <h3>flex + :before + flex-grow</h3>
+        <div class="context center-wrap-7">
+            <div class="wrap-context-7">
+                flex垂直方向布局。添加一个伪元素，该伪元素利用flex-grow: .5;取到剩余空间的一半，然后把需要居中的元素推到中间位置。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-8 {
+                width: 100%;
+                height: 250px;
+                margin: auto;
+                display: flex;
+            }
+            .wrap-context-8 {
+                width: 400px;
+                margin: auto;
+                background: antiquewhite;
+            }
+        </style>
+        <h3>flex + margin auto</h3>
+        <div class="context center-wrap-8">
+            <div class="wrap-context-8">
+                父元素设置flex，然后子元素设置margin auto。IE中会存在兼容性问题。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-9 {
+                width: 100%;
+                height: 250px;
+                margin: auto;
+                display: flex;
+                justify-content: center;
+            }
+            .wrap-context-9 {
+                width: 400px;
+                align-self: center;
+                background: antiquewhite;
+            }
+        </style>
+        <h3>flex + align-self</h3>
+        <div class="context center-wrap-9">
+            <div class="wrap-context-9">
+                父元素设置flex，利用子元素可以自己设定自己的垂直居中方式。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-10 {
+                width: 600px;
+                height: 250px;
+                margin: auto;
+                text-align: center;
+                display: table-cell;
+                vertical-align: middle;
+            }
+            .wrap-context-10 {
+                width: 400px;
+                margin: auto;
+                background: antiquewhite;
+            }
+        </style>
+        <h3>display: table-cell</h3>
+        <div class="context center-wrap-10">
+            <div class="wrap-context-10">
+                缺点是宽度要设置实际尺寸，百分比没效果。
+                较老的居中方式，原理是利用css的display属性将div设置成表格的单元格，这样就能利用支持存储单元格对齐的vertical-align属性来将信息垂直居中了。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-11 {
+                width: 100%;
+                height: 250px;
+                margin: auto;
+            }
+            .wrap-context-11 {
+                width: 400px;
+                margin: auto;
+                position: relative;
+                background: antiquewhite;
+                height: 70px;
+                top: calc((100% - 70px) / 2);
+            }
+        </style>
+        <h3>calc</h3>
+        <div class="context center-wrap-11">
+            <div class="wrap-context-11">
+                这个方法不能大量使用，否则会降低网页性能。<br />
+                缺点就是居中的元素需要知道具体尺寸。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-12 {
+                width: 100%;
+                height: 250px;
+                margin: auto;
+            }
+            .wrap-context-12 {
+                width: 400px;
+                margin: auto;
+                position: relative;
+                background: antiquewhite;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        </style>
+        <h3>relative + translateY</h3>
+        <div class="context center-wrap-12">
+            <div class="wrap-context-12">
+                原理和relative + absolute相似，只是这里是相对自己位移。
+            </div>
+        </div>
+    </div>
+
+    <div class="module-block">
+        <style type="text/css">
+            .center-wrap-13 {
+                width: 100%;
+                height: auto;
+                margin: auto;
+                padding: 50px;
+            }
+            .wrap-context-13 {
+                width: 400px;
+                background: antiquewhite;
+                margin: auto;
+            }
+        </style>
+        <h3>padding</h3>
+        <div class="context center-wrap-13">
+            <div class="wrap-context-13">
+                一种简单的居中方式。严格来讲，只是设置上下内边距大小一样。<br />
+                父容器的高度是弹性的。
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
