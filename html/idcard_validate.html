@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>身份证格式校验</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Pragma" CONTENT="no-cache">
+  <meta http-equiv="Cache-Control" CONTENT="no-cache">
+  <meta http-equiv="Expires" CONTENT="0">
+  <style type="text/css">
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    .container {
+      position: relative;
+      height: 400px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.12);
+      align-items: center;
+      justify-content: center;
+    }
+    .content {
+      width: 400px;
+      margin: auto;
+      padding: 150px 16px 16px;
+    }
+    .input{
+      width: 220px;
+      font-size: 1em;
+      box-sizing: border-box;
+      margin: 0;
+      font-variant: tabular-nums;
+      font-feature-settings: 'tnum';
+      position: relative;
+      display: inline-block;
+      height: 32px;
+      padding: 4px 11px;
+      color: rgba(0, 0, 0, 0.65);
+      line-height: 32px;
+      background-color: #fff;
+      background-image: none;
+      border: 1px solid #E9E9E9;
+      border-radius: 4px;
+      transition: all 0.3s;
+    }
+    .button {
+      cursor: pointer;
+      line-height: 1.5;
+      position: relative;
+      display: inline-block;
+      font-weight: 400;
+      white-space: nowrap;
+      text-align: center;
+      border: 1px solid #2768ED;
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      user-select: none;
+      touch-action: manipulation;
+      height: 32px;
+      border-radius: 4px;
+      min-width: 100px;
+      padding: 0 8px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #2768ED;
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+      box-shadow: 0px 2px 10px 0px rgba(50, 129, 245, 0.43);
+      outline: 0;
+    }
+    .button:not([disabled]):hover {
+      text-decoration: none;
+    }
+    .button:hover, .button:focus {
+      color: #fff;
+      background-color: #508efa;
+      border-color: #508efa;
+    }
+    .button:not([disabled]):active {
+      outline: 0;
+      box-shadow: none;
+    }
+    .button:active {
+      color: #fff;
+      background-color: #164bc7;
+      border-color: #164bc7;
+      text-decoration: none;
+    }
+    .message {
+      padding: 8px 0;
+      font-size: 1em;
+      color: rgba(0, 0, 0, 0.65);
+      /* #f5222d #11ab11*/
+    }
+    .message::before {
+      content: '*';
+      color: inherit;
+    }
+    .text {
+      padding: 8px;
+      font-size: 1.5em;
+      color: #164bc7;
+    }
+  </style>
+  <script type="application/javascript">
+    var CITY_CODE = { 11: '北京', 12: '天津', 13: '河北', 14: '山西', 15: '内蒙古', 21: '辽宁', 22: '吉林', 23: '黑龙江 ', 31: '上海', 32: '江苏', 33: '浙江', 34: '安徽', 35: '福建', 36: '江西', 37: '山东', 41: '河南', 42: '湖北 ', 43: '湖南', 44: '广东', 45: '广西', 46: '海南', 50: '重庆', 51: '四川', 52: '贵州', 53: '云南', 54: '西藏 ', 61: '陕西', 62: '甘肃', 63: '青海', 64: '宁夏', 65: '新疆', 71: '台湾', 81: '香港', 82: '澳门', 91: '国外' };
+    // 校验code是否在中国省区域编码里面
+    function isInCityCode(code) {
+      return !!CITY_CODE[code];
+    }
+    function validator(value) {
+      if (!value || value === '') {
+        return true;
+      }
+      if (!/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(value)) {
+        return '身份证格式无效!';
+      }
+      if (!isInCityCode(value.substr(0, 2))) {
+        return '区域编码错误!';
+      }
+      var codeArr = value.split('');
+      var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+      var parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2];
+      var sum = 0;
+      for (var index = 0; index < codeArr.length; index++) {
+        var item = codeArr[index];
+        if (index < 17) {
+          sum = sum + item * factor[index];
+        }
+      }
+      var last = parity[sum % 11] + '';
+      if (last !== (codeArr[17] + '')) {
+        return '身份证号码错误!';
+      }
+      return true;
+    }
+  </script>
+</head>
+
+<body style="font-size: 16px;">
+  <div class="container">
+    <div class="content">
+      <div id="description" class="text">——</div>
+      <input id="value_idcard" type="text" class="input" placeholder="请输入身份证号码" oninput="handleChange(event)" onporpertychange="handleChange(event)" />
+      <button class="button" onclick="handleCheck()">检测</button>
+      <div id="error_message" class="message">请输入身份证号码</div>
+    </div>
+  </div>
+
+<script type="application/javascript">
+  // 格式化身份证号码展示
+  function formatIdCard(idCard) {
+    var arr_number = idCard.split('');
+    var text_arr1 = [];
+    var text_arr2 = [];
+    var text_arr3 = [];
+    for (var j = 0; j < arr_number.length; j++) {
+      if (j < 6) {
+        text_arr1.push(arr_number[j])
+      } else if (j < 14) {
+        text_arr2.push(arr_number[j])
+      } else {
+        text_arr3.push(arr_number[j])
+      }
+    }
+    var str = text_arr1.join('') +  '—' + text_arr2.join('') +  '—' + text_arr3.join('');
+    return str;
+  }
+  // 去除首位空格
+  function trim(str){
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+  }
+  // 检验
+  function handleCheck() {
+    var ele_mes = document.getElementById('error_message');
+    var ele_value = document.getElementById('value_idcard').value;
+    var value = trim('' + ele_value);
+    if (value === '') {
+      ele_mes.innerHTML = '请输入身份证号码。';
+      ele_mes.style.color = 'rgba(0, 0, 0, 0.65)';
+      return;
+    }
+    var result = validator(value);
+    if (result === true) {
+      ele_mes.innerHTML = '校验通过。';
+      ele_mes.style.color = '#11ab11';
+    } else {
+      ele_mes.innerHTML = result;
+      ele_mes.style.color = '#f5222d';
+    }
+  }
+  function handleChange() {
+    var ele_mes = document.getElementById('error_message');
+    var ele_des = document.getElementById('description');
+    var ele_value = document.getElementById('value_idcard').value;
+    var value = trim('' + ele_value);
+    if (value !== '') {
+      ele_des.innerHTML = formatIdCard(value);
+      ele_mes.innerHTML = '';
+      ele_mes.style.color = 'rgba(0, 0, 0, 0.65)';
+    } else {
+      ele_des.innerHTML = formatIdCard('');
+      ele_mes.innerHTML = '请输入身份证号码。';
+      ele_mes.style.color = 'rgba(0, 0, 0, 0.65)';
+    }
+  }
+</script>
+</body>
+
+</html>
