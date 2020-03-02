@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>滚动相关demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Expires" CONTENT="0">
+    <script src="https://demo.cssworld.cn/js/3/iscroll.js"></script>
+</head>
+
+<body style="font-size: 16px;">
+  <div style="padding: 32px;">
+      <h3>利用插件平滑滚动，基本过时</h3>
+      <style type="text/css">
+          *, *::before, *::after {
+              box-sizing: border-box;
+          }
+          .wrap {
+              margin: auto;
+              width: 300px;
+              height: 200px;
+              position: relative;
+              overflow: hidden;
+              background: aqua;
+          }
+          .wrap > ul {
+              position: absolute;
+              white-space: nowrap;
+              padding: 0px;
+              margin: 0px;
+          }
+          .wrap li {
+              display: inline-block;
+          }
+          .wrap li::before {
+              content: attr(data-index);
+              position: absolute;
+              margin: 5px;
+              border-radius: 50%;
+              background-color: rgba(0,0,0,.5);
+              width: 22px;
+              height: 22px;
+              line-height: 22px;
+              text-align: center;
+              color: #fff;
+              font-size: 12px;
+          }
+          .wrap img {
+              width: 256px;
+              height: 192px;
+          }
+      </style>
+      <div id="wrap" class="wrap">
+          <ul>
+              <li data-index="1"><img src="https://demo.cssworld.cn/images/common/l/1.jpg"></li>
+              <li data-index="2"><img src="https://demo.cssworld.cn/images/common/l/1.jpg"></li>
+              <li data-index="3"><img src="https://demo.cssworld.cn/images/common/l/1.jpg"></li>
+              <li data-index="4"><img src="https://demo.cssworld.cn/images/common/l/1.jpg"></li>
+              <li data-index="5"><img src="https://demo.cssworld.cn/images/common/l/1.jpg"></li>
+          </ul>
+      </div>
+      <script type="application/javascript">
+        new IScroll('#wrap', {
+          scrollbars: true,
+          scrollX: true,
+          scrollY: false
+        });
+      </script>
+  </div>
+
+</body>
+
+</html>
